@@ -1,27 +1,44 @@
 // src/Login/Login.tsx
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../types';
 
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
 
 type Props = {
   navigation: LoginScreenNavigationProp;
 };
 
-const Login: React.FC<Props> = ({ navigation }) => {
+const Login: React.FC<Props> = ({navigation}) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxToggle = () => {
     setIsChecked(!isChecked);
   };
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bookmycook</Text>
-      <Image source={require('../../assets/images/image1.jpg')} style={styles.image1} />
-      <Image source={require('../../assets/images/image2.png')} style={styles.image2} />
+      <Image
+        source={require('../../assets/images/image1.png')}
+        style={styles.image1}
+      />
+      <Image
+        source={require('../../assets/images/image2.png')}
+        style={styles.image2}
+      />
       <View style={styles.formContainer}>
         <Text style={styles.loginText}>Login</Text>
         <View style={styles.inputGroup}>
@@ -42,8 +59,11 @@ const Login: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity onPress={handleCheckboxToggle} style={styles.rememberMeContainer}>
-            <View style={[styles.checkbox, isChecked && styles.checkedCheckbox]} >
+          <TouchableOpacity
+            onPress={handleCheckboxToggle}
+            style={styles.rememberMeContainer}>
+            <View
+              style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
               {isChecked && <Text style={styles.checkmark}>✓</Text>}
             </View>
             <Text style={styles.rememberMeText}>Remember me</Text>
@@ -52,7 +72,9 @@ const Login: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.forgotPasswordText}>Forgot password</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => navigation.navigate('OTPScreen')}>
           <Text style={styles.loginButtonText}>LOGIN</Text>
         </TouchableOpacity>
         <View style={styles.separator}>
@@ -62,11 +84,17 @@ const Login: React.FC<Props> = ({ navigation }) => {
         </View>
         <View style={styles.socialContainer}>
           <TouchableOpacity style={styles.socialButton}>
-            <Image source={require('../../assets/images/google.png')} style={styles.socialIcon} />
+            <Image
+              source={require('../../assets/images/google.png')}
+              style={styles.socialIcon}
+            />
             <Text style={styles.socialButtonText}>GOOGLE</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.socialButton}>
-            <Image source={require('../../assets/images/facebook.png')} style={styles.socialIcon} />
+            <Image
+              source={require('../../assets/images/facebook.png')}
+              style={styles.socialIcon}
+            />
             <Text style={styles.socialButtonText}>FACEBOOK</Text>
           </TouchableOpacity>
         </View>
@@ -84,8 +112,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#DB3B00',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    // borderTopLeftRadius: 25,
+    // borderTopRightRadius: 25,
   },
   title: {
     position: 'absolute',
@@ -93,7 +121,7 @@ const styles = StyleSheet.create({
     height: 48,
     left: '50%',
     top: 60,
-    transform: [{ translateX: -104.5 }],
+    transform: [{translateX: -104.5}],
     fontFamily: 'Poppins',
     fontStyle: 'normal',
     fontWeight: '500',
@@ -105,9 +133,9 @@ const styles = StyleSheet.create({
   image1: {
     position: 'absolute',
     width: 273,
-    height: 84,
-    left: 190,
-    top: 110,
+    height: 164,
+    left: 230,
+    top: 80,
   },
   image2: {
     position: 'absolute',
@@ -127,7 +155,7 @@ const styles = StyleSheet.create({
     height: 558,
     left: '50%',
     bottom: 0,
-    transform: [{ translateX: -180 }],
+    transform: [{translateX: -180}],
     backgroundColor: 'rgba(242, 242, 242, 0.8)',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,

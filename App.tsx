@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/Login/Login'; // Import Login screen
 import Home from './src/Home/Home'; // Import Home screen
+import OTPScreen from './src/Login/OTPScreen';
 import { RootStackParamList } from '../CookBook/src/types';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -14,6 +15,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="OTPScreen" component={OTPScreen} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
