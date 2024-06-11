@@ -4,13 +4,17 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Modal,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../types';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -22,98 +26,153 @@ type Props = {
 };
 
 const Login: React.FC<Props> = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const handleCheckboxToggle = () => {
     setIsChecked(!isChecked);
   };
 
+  const handleLogin = () => {
+    if (!email && !password) {
+      setAlertMessage('Please fill both the input fields.');
+      setAlertVisible(true);
+    } else if (!email) {
+      setAlertMessage('Please enter email or phone.');
+      setAlertVisible(true);
+    } else if (!password) {
+      setAlertMessage('Password is missing.');
+      setAlertVisible(true);
+    } else {
+      navigation.navigate('OTPScreen');
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bookmycook</Text>
-      <Image
-        source={require('../../assets/images/image1.png')}
-        style={styles.image1}
-      />
-      <Image
-        source={require('../../assets/images/image2.png')}
-        style={styles.image2}
-      />
-      <View style={styles.formContainer}>
-        <Text style={styles.loginText}>Login</Text>
-        <View style={styles.inputGroup}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email or phone number"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#888888"
-          />
-        </View>
-        <View style={styles.inputGroup}>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-            placeholderTextColor="#888888"
-          />
-        </View>
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            onPress={handleCheckboxToggle}
-            style={styles.rememberMeContainer}>
-            <View
-              style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
-              {isChecked && <Text style={styles.checkmark}>✓</Text>}
-            </View>
-            <Text style={styles.rememberMeText}>Remember me</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.forgotPasswordText}>Forgot password</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => navigation.navigate('OTPScreen')}>
-          <Text style={styles.loginButtonText}>LOGIN</Text>
-        </TouchableOpacity>
-        <View style={styles.separator}>
-          <View style={styles.line} />
-          <Text style={styles.orText}>Or</Text>
-          <View style={styles.line} />
-        </View>
-        <View style={styles.socialContainer}>
-          <TouchableOpacity style={styles.socialButton}>
-            <Image
-              source={require('../../assets/images/google.png')}
-              style={styles.socialIcon}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.title}>Book My Cook</Text>
+        <Image
+          source={require('../../assets/images/image1.png')}
+          style={styles.image1}
+        />
+        <Image
+          source={require('../../assets/images/image2.png')}
+          style={styles.image2}
+        />
+        <View style={styles.formContainer}>
+          <Text style={styles.loginText}>Login</Text>
+          <View style={styles.inputGroup}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email or phone number"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              placeholderTextColor="#888888"
+              value={email}
+              onChangeText={setEmail}
             />
-            <Text style={styles.socialButtonText}>GOOGLE</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
-            <Image
-              source={require('../../assets/images/facebook.png')}
-              style={styles.socialIcon}
+          </View>
+          <View style={styles.inputGroup}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry={!isPasswordVisible}
+              placeholderTextColor="#888888"
+              value={password}
+              onChangeText={setPassword}
             />
-            <Text style={styles.socialButtonText}>FACEBOOK</Text>
+            <TouchableOpacity
+              style={styles.eyeButton}
+              onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+              <Icon
+                name={isPasswordVisible ? 'eye-off' : 'eye'}
+                size={24}
+                color="gray"
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.optionsContainer}>
+            <TouchableOpacity
+              onPress={handleCheckboxToggle}
+              style={styles.rememberMeContainer}>
+              <View
+                style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
+                {isChecked && <Text style={styles.checkmark}>✓</Text>}
+              </View>
+              <Text style={styles.rememberMeText}>Remember me</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.forgotPasswordText}>Forgot password</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>LOGIN</Text>
           </TouchableOpacity>
+          <View style={styles.separator}>
+            <View style={styles.line} />
+            <Text style={styles.orText}>Or</Text>
+            <View style={styles.line} />
+          </View>
+          <View style={styles.socialContainer}>
+            <TouchableOpacity style={styles.socialButton}>
+              <Image
+                source={require('../../assets/images/google.png')}
+                style={styles.socialIcon}
+              />
+              <Text style={styles.socialButtonText}>GOOGLE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton}>
+              <Image
+                source={require('../../assets/images/facebook.png')}
+                style={styles.socialIcon}
+              />
+              <Text style={styles.socialButtonText}>FACEBOOK</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Don't have an account ? </Text>
+            <TouchableOpacity>
+              <Text style={styles.signupTextBold}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.signupText}>Don’t have an account? Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </ScrollView>
+      <Modal
+        transparent={true}
+        visible={alertVisible}
+        animationType="slide"
+        onRequestClose={() => setAlertVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalMessage}>{alertMessage}</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setAlertVisible(false)}>
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
+    flex: 1,
     backgroundColor: '#DB3B00',
-    // borderTopLeftRadius: 25,
-    // borderTopRightRadius: 25,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     position: 'absolute',
@@ -195,6 +254,9 @@ const styles = StyleSheet.create({
     color: '#000000',
     padding: 8,
     backgroundColor: 'transparent',
+  },
+  eyeButton: {
+    padding: 8,
   },
   optionsContainer: {
     width: 328,
@@ -329,15 +391,67 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: '#FFFFFF',
   },
+  signupContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
   signupText: {
-    width: 224,
-    height: 19,
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 16,
     lineHeight: 19,
     color: '#303030',
+  },
+  signupTextBold: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 19,
+    color: '#DB3B00',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    alignItems: 'center',
+    borderColor: '#DB3B00',
+    borderWidth: 2,
+  },
+  modalMessage: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 19,
+    textAlign: 'center',
+    color: '#303030',
+    marginBottom: 20,
+  },
+  modalButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#DB3B00',
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 19,
+    textAlign: 'center',
+    color: '#FFFFFF',
   },
 });
 
