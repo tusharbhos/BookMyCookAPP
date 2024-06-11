@@ -30,6 +30,14 @@ const OTPScreen: React.FC<Props> = ({navigation}) => {
 
     if (value && index < otp.length - 1) {
       inputs.current[index + 1].focus();
+    } else if (!value && index > 0) {
+      inputs.current[index - 1].focus();
+    }
+  };
+
+  const handleKeyPress = (index: number, key: string) => {
+    if (key === 'Backspace' && !otp[index] && index > 0) {
+      inputs.current[index - 1].focus();
     }
   };
 
@@ -57,6 +65,9 @@ const OTPScreen: React.FC<Props> = ({navigation}) => {
               keyboardType="numeric"
               maxLength={1}
               onChangeText={value => handleOtpChange(index, value)}
+              onKeyPress={({nativeEvent}) =>
+                handleKeyPress(index, nativeEvent.key)
+              }
               value={digit}
             />
           ))}
@@ -66,9 +77,12 @@ const OTPScreen: React.FC<Props> = ({navigation}) => {
           onPress={() => navigation.navigate('Home')}>
           <Text style={styles.verifyButtonText}>VERIFY</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.resendText}>Didn't receive code ? Resend</Text>
-        </TouchableOpacity>
+        <View style={styles.resendTextContainer}>
+          <Text style={styles.resendText}>Didn't receive code ? </Text>
+          <TouchableOpacity>
+            <Text style={styles.resendTextBold}>Resend</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -76,11 +90,6 @@ const OTPScreen: React.FC<Props> = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    //   flex: 1,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    //   backgroundColor: '#DB3B00',
-    //   paddingHorizontal: 16,
     position: 'relative',
     width: '100%',
     height: '100%',
@@ -173,9 +182,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 16,
   },
+  resendTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
   resendText: {
-    width: 328,
-    height: 19,
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: '400',
@@ -183,6 +196,14 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     textAlign: 'center',
     color: '#303030',
+  },
+  resendTextBold: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 16,
+    color: '#DB3B00',
   },
 });
 
