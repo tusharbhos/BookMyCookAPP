@@ -125,7 +125,7 @@ operable program or batch file.
    For Windows, update your system environment variables accordingly.
 
 3. **Install Java Development Kit (JDK):**
-   - Ensure that JDK 17 or above is installed. You can download it from the official [JDK website](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html).
+   - Ensure that JDK 17 or above is installed. You can download it from the official [JDK website](https://www.oracle.com/in/java/technologies/downloads/#jdk17-windows).
 
 4. **Install or Update ADB:**
    - Ensure that `adb` (Android Debug Bridge) is installed. If it's not recognized, it might be missing or not added to your system's PATH.
