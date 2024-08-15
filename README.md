@@ -22,13 +22,7 @@ Follow the instructions below to set up and run the project on your local machin
 To get started, clone the repository using the following command:
 
 ```bash
-git clone https://github.com/your-username/BookMyCook.git
-```
-
-Alternatively, you can fork the repository and then clone your forked repository:
-
-```bash
-git clone https://github.com/your-username/your-forked-repo.git
+git clone https://github.com/tusharbhos/BookMyCookAPP.git 
 ```
 
 ### 2. Install Dependencies
